@@ -12,42 +12,42 @@ import (
 // function with every expression it encounters and halts if the walker
 // returns an error.
 func (r *Runner) WalkExpressions(walker func(hcl.Expression) error) error {
-	visit := func(expr hcl.Expression) error {
-		return r.WithExpressionContext(expr, func() error {
-			return walker(expr)
-		})
-	}
+	// visit := func(expr hcl.Expression) error {
+	// 	return r.WithExpressionContext(expr, func() error {
+	// 		return walker(expr)
+	// 	})
+	// }
 
-	for _, resource := range r.TFConfig.Module.ManagedResources {
-		if err := r.walkBody(resource.Config, visit); err != nil {
-			return err
-		}
-	}
-	for _, resource := range r.TFConfig.Module.DataResources {
-		if err := r.walkBody(resource.Config, visit); err != nil {
-			return err
-		}
-	}
-	for _, module := range r.TFConfig.Module.ModuleCalls {
-		if err := r.walkBody(module.Config, visit); err != nil {
-			return err
-		}
-	}
-	for _, provider := range r.TFConfig.Module.ProviderConfigs {
-		if err := r.walkBody(provider.Config, visit); err != nil {
-			return err
-		}
-	}
-	for _, local := range r.TFConfig.Module.Locals {
-		if err := visit(local.Expr); err != nil {
-			return err
-		}
-	}
-	for _, output := range r.TFConfig.Module.Outputs {
-		if err := visit(output.Expr); err != nil {
-			return err
-		}
-	}
+	// for _, resource := range r.TFConfig.Module.ManagedResources {
+	// 	if err := r.walkBody(resource.Config, visit); err != nil {
+	// 		return err
+	// 	}
+	// }
+	// for _, resource := range r.TFConfig.Module.DataResources {
+	// 	if err := r.walkBody(resource.Config, visit); err != nil {
+	// 		return err
+	// 	}
+	// }
+	// for _, module := range r.TFConfig.Module.ModuleCalls {
+	// 	if err := r.walkBody(module.Config, visit); err != nil {
+	// 		return err
+	// 	}
+	// }
+	// for _, provider := range r.TFConfig.Module.ProviderConfigs {
+	// 	if err := r.walkBody(provider.Config, visit); err != nil {
+	// 		return err
+	// 	}
+	// }
+	// for _, local := range r.TFConfig.Module.Locals {
+	// 	if err := visit(local.Expr); err != nil {
+	// 		return err
+	// 	}
+	// }
+	// for _, output := range r.TFConfig.Module.Outputs {
+	// 	if err := visit(output.Expr); err != nil {
+	// 		return err
+	// 	}
+	// }
 
 	return nil
 }
